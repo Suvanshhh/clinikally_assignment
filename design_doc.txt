@@ -1,7 +1,3 @@
-Here are your fully updated **Design Document** and **README.md** as per the assignment instructions.
-
----
-
 ## 📄 Design Document
 
 ### 1. Architecture and Major Components
