@@ -1,23 +1,60 @@
-# Design Document
+Here are your fully updated **Design Document** and **README.md** as per the assignment instructions.
 
-## Architecture
-- FastAPI app with modular routing
-- SQLite used for persistence
-- SQLAlchemy for ORM
-- API organized into doctor and recommendation modules
+---
 
-## Data Models
-- **Doctor**: id, name, specialization, average_rating
-- **Review**: id, doctor_id, rating, review
-- **Recommendation**: id, uuid, doctor_id, patient_name, notes, products, expiry
+## 📄 Design Document
 
-## Decisions
-- Reviews stored separately and used to compute rating
-- Products stored as JSON strings in DB
-- UUID used for shareable links
-- Expiry handled via timestamp field
+### 1. Architecture and Major Components
 
-## Assumptions
-- In-memory DB (SQLite)
-- No user authentication
-- Products fetched via dummy data
+- **Framework:** FastAPI (Python)
+- **Database:** SQLite (file-based, simulating in-memory for local dev)
+- **Authentication:** JWT-based token authentication for protected endpoints
+- **External Data:** Product information fetched in real-time from [dummyjson.com/products](https://dummyjson.com/products)
+- **Major Components:**
+  - **API Routers:** Modular routes for doctors, reviews, recommendations, and authentication
+  - **Models:** SQLAlchemy ORM models for Doctor, Review, Recommendation
+  - **Schemas:** Pydantic models for request/response validation
+  - **Utils:** Product fetcher utility for external API integration
+
+### 2. Data Models and Relationships
+
+- **Doctor**
+  - `id` (PK), `name`, `specialization`, `average_rating`
+  - Relationships: One-to-many with `Review` and `Recommendation`
+- **Review**
+  - `id` (PK), `doctor_id` (FK), `rating`, `review`
+  - Linked to a single Doctor
+- **Recommendation**
+  - `id` (PK), `uuid` (unique), `doctor_id` (FK), `patient_name`, `notes`, `products` (JSON), `expiry`
+  - Linked to a single Doctor
+- **Relationships:**
+  - A Doctor can have multiple Reviews and Recommendations.
+  - Recommendations store product details as JSON fetched from the dummy API.
+
+### 3. Key Decisions
+
+- **Validation:**
+  - Review text is limited to 100 words (validated in Pydantic schema).
+  - Product IDs are validated by fetching from the dummy API before storing recommendations.
+- **Structure:**
+  - Modular code structure: separate routers, models, schemas, and utils.
+  - JWT required for protected endpoints (doctor creation, review, recommendation).
+- **Security:**
+  - JWT tokens include role info (`is_doctor`) for access control.
+- **Expiry:**
+  - Recommendation links expire after 7 days; expired links return a 404.
+- **Pagination:**
+  - Doctor listing supports `skip` and `limit` query parameters for efficient pagination.
+
+### 4. Assumptions and Limitations
+
+- **Assumptions:**
+  - User authentication is simulated with a dummy user database.
+  - Product data is always available from the dummyjson API.
+- **Limitations:**
+  - No persistent user registration or real user management.
+  - Product recommendations are not stored in a normalized way (full product JSON is stored).
+  - The database is file-based for persistence; in-memory mode would lose data on restart.
+  - No email or notification system for recommendations.
+
+---
