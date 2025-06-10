@@ -1,0 +1,23 @@
+# Design Document
+
+## Architecture
+- FastAPI app with modular routing
+- SQLite used for persistence
+- SQLAlchemy for ORM
+- API organized into doctor and recommendation modules
+
+## Data Models
+- **Doctor**: id, name, specialization, average_rating
+- **Review**: id, doctor_id, rating, review
+- **Recommendation**: id, uuid, doctor_id, patient_name, notes, products, expiry
+
+## Decisions
+- Reviews stored separately and used to compute rating
+- Products stored as JSON strings in DB
+- UUID used for shareable links
+- Expiry handled via timestamp field
+
+## Assumptions
+- In-memory DB (SQLite)
+- No user authentication
+- Products fetched via dummy data
