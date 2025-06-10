@@ -8,7 +8,7 @@ app = FastAPI(title="Dermatologist Review & Recommendation API")
 # Initialize DB
 create_db()
 
-# Include routes
+# My routes
 app.include_router(doctor.router, prefix="/doctor", tags=["Doctor"])
 app.include_router(recommendation.router, prefix="/recommendation", tags=["Recommendation"])
 app.include_router(auth.router, prefix="/auth", tags=["Auth"])

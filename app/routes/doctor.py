@@ -18,10 +18,10 @@ def get_db():
         db.close()
 
 def get_current_user(token: str = Depends(oauth2_scheme)):
-    payload = verify_token(token)  # Now returns full payload dict
+    payload = verify_token(token)  
     if not payload or not payload.get("is_doctor"):
         raise HTTPException(status_code=401, detail="Invalid token or insufficient permissions")
-    return payload  # Return full payload instead of just username
+    return payload  
 
 @router.post("/", response_model=DoctorResponse)
 def create_doctor(
@@ -68,5 +68,19 @@ def get_doctors(
     limit: int = 10,
     db: Session = Depends(get_db)
 ):
-    return db.query(Doctor).filter(Doctor.average_rating >= min_rating
+ 
+    doctors = db.query(Doctor).filter(Doctor.average_rating >= min_rating
         ).offset(skip).limit(limit).all()
+    
+    
+    response_data = []
+    for doctor in doctors:
+        response_data.append({
+            "id": doctor.id,
+            "name": doctor.name,
+            "specialization": doctor.specialization,
+            "average_rating": doctor.average_rating,
+            "reviews": [rev.review for rev in doctor.reviews]
+        })
+    
+    return response_data

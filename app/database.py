@@ -7,10 +7,10 @@ SQLALCHEMY_DATABASE_URL = "sqlite:///./app.db"
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-Base = declarative_base()  # Define Base here instead of importing
+Base = declarative_base() 
 
 def create_db():
-    Base.metadata.create_all(bind=engine)  # Use local Base
+    Base.metadata.create_all(bind=engine)  
 
 def get_db():
     db = SessionLocal()

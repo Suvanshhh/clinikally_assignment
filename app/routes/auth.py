@@ -10,12 +10,12 @@ router = APIRouter()
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/token")
 
-# Updated dummy users DB with roles
+
 fake_users_db = {
     "user1": {
         "username": "user1",
         "hashed_password": pwd_context.hash("pass1"),
-        "is_doctor": True  # Added role field ← [2]
+        "is_doctor": True 
     },
     "user2": {
         "username": "user2",
@@ -43,7 +43,7 @@ def login(form_data: OAuth2PasswordRequestForm = Depends()):
     if not user:
         raise HTTPException(status_code=401, detail="Invalid credentials")
     
-    # Get role from user data
+    
     token_data = {
         "sub": user["username"],
         "is_doctor": user.get("is_doctor", False)  # Dynamic role ← [2]
