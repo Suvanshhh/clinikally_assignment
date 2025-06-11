@@ -7,7 +7,8 @@ A backend service built with FastAPI that enables:
 - Publicly shareable recommendation links (like a prescription)
 
 ---
-
+## Project Working Video: https://drive.google.com/file/d/1cERFNwdo-fAejzb88aBvSdqL1l-D-bz8/view?usp=drive_link
+---
 ## 🚀 Features
 
 1. **Rate & Review Dermatologist**
@@ -72,36 +73,84 @@ A backend service built with FastAPI that enables:
 
 ---
 
+Here’s a clean, markdown-formatted version of your API documentation — with **support for resizing images** using HTML tags (since GitHub Markdown doesn't natively support image resizing):
+
+---
+
 ## 📚 API Documentation
 
 ### **Authentication**
 
-- **POST /auth/token**
-  - Form data: `username`, `password`
-  - Returns: JWT access token
+#### `POST /auth/token`
+
+* **Description:** Authenticate user and receive a JWT access token.
+* **Form data:**
+
+  * `username`
+  * `password`
+* **Returns:** Access token.
+
+<img src="https://github.com/user-attachments/assets/15bb1a7f-c9e0-4ea1-81d3-26e405270c1f" width="500"/>  
+<img src="https://github.com/user-attachments/assets/674a7ab5-bc90-4ebe-944c-5fd212decb9d" width="500"/>
+
+---
 
 ### **Doctors**
 
-- **POST /doctor/** (Protected)
-  - Create a new doctor
+#### `POST /doctor/` (Protected)
 
-- **GET /doctor/**
-  - List doctors (`min_rating`, `skip`, `limit` supported)
+* **Description:** Create a new doctor profile.
+* **Headers:** Authorization (Bearer token required)
 
-- **POST /doctor/{doctor_id}/review** (Protected)
-  - Add a rating (1–5) and review (max 100 words)
+<img src="https://github.com/user-attachments/assets/e91f8eae-4dce-4877-8d44-e22f55566a65" width="500"/>  
+<img src="https://github.com/user-attachments/assets/923e87cc-97c6-4631-aea6-81c78b98d29f" width="500"/>
+
+#### `GET /doctor/`
+
+* **Description:** List all doctors.
+* **Query params (optional):**
+
+  * `min_rating`: Minimum average rating filter
+  * `skip`: Pagination start
+  * `limit`: Number of records to fetch
+
+<img src="https://github.com/user-attachments/assets/2e62b3bb-33b6-411f-a6b1-6a4cdd0ed8a9" width="500"/>  
+<img src="https://github.com/user-attachments/assets/7d4c4caa-575b-4693-99f4-e6648b5d8159" width="500"/>
+
+#### `POST /doctor/{doctor_id}/review` (Protected)
+
+* **Description:** Submit a rating (1–5) and review (up to 100 words).
+* **Headers:** Authorization required.
+
+<img src="https://github.com/user-attachments/assets/3e982cd7-3f90-4072-a19b-0c07494b3002" width="500"/>  
+<img src="https://github.com/user-attachments/assets/5aaf76a7-9a6d-4338-9953-b66f5d5acb6a" width="500"/>
+
+---
 
 ### **Recommendations**
 
-- **POST /recommendation/{doctor_id}** (Protected)
-  - Create a recommendation for a patient with product IDs (from dummyjson)
-  - Returns: recommendation details + `uuid`
+#### `POST /recommendation/{doctor_id}` (Protected)
 
-- **GET /recommendation/{uuid}**
-  - Fetch a public recommendation by UUID
-  - Returns: patient name, notes, expiry, and full product info
+* **Description:** Create a recommendation with product IDs.
+* **Returns:** Recommendation data + UUID.
+* **Headers:** Authorization required.
+
+<img src="https://github.com/user-attachments/assets/bd93b3ad-e55d-4991-8fa5-f0cb93500587" width="500"/>  
+<img src="https://github.com/user-attachments/assets/2d7af12e-77af-4206-837b-964eb134dd62" width="500"/>  
+<img src="https://github.com/user-attachments/assets/b0a5972f-5e43-42b4-a015-0e4bdc6896d7" width="500"/>
+
+#### `GET /recommendation/{uuid}`
+
+* **Description:** Fetch a public recommendation using UUID.
+* **Returns:** Patient name, notes, expiry date, and full product details.
+
+<img src="https://github.com/user-attachments/assets/6ac03681-9327-46f5-9925-1d7fd7b00103" width="500"/>  
+<img src="https://github.com/user-attachments/assets/29bc9bac-05bd-4e67-af84-1feaa6eb55d7" width="500"/>
 
 ---
+
+Let me know if you want me to help automate this markdown generation for future endpoints using a script or generator.
+
 
 ## 🧪 Example Usage
 
@@ -119,7 +168,7 @@ Copy the `access_token` for use in protected endpoints.
 ```json
 POST /doctor/
 {
-  "name": "Dr. Jane Doe",
+  "name": "Dr. Sagar",
   "specialization": "Dermatology"
 }
 ```
@@ -137,7 +186,7 @@ POST /doctor/1/review
 ```json
 POST /recommendation/1
 {
-  "patient_name": "John Smith",
+  "patient_name": "Sameer Shah",
   "notes": "Use these products daily.",
   "products": [1, 2]
 }
